@@ -2,6 +2,7 @@ import { Task, TaskDifficulty, TaskState } from "../types/Task";
 
 //接口，定义对象的形状，也就是指的对象的属性，类型，方法。没有实现
 //也就是说TaskItemProps这个对象结构包含了3个属性
+//作用是传递数据给父组件
 interface TaskItemProps {
   //使用Task类型
   task: Task;
@@ -18,7 +19,7 @@ const TaskItem = ({ task, onToggle, onDelete }: TaskItemProps) => {
   const getStateText = (state: TaskState) => {
     switch (state) {
       case TaskState.completed:
-        return "已完成";
+        return "✅已完成";
       case TaskState.uncompleted:
         return "❌ 未完成";
       case TaskState.overdue:

@@ -3,6 +3,7 @@ import "./App.css";
 //引入Task类型
 import { Task, TaskDifficulty, TaskState } from "./types/Task";
 import TaskItem from "./components/TaskItem";
+import AddTask from "./components/AddTask";
 
 function App() {
   //测试数据,使用了useState来管理状态，当调用setTasks的时候就会自动刷新页面
@@ -20,7 +21,7 @@ function App() {
       name: "进行30Min阅读",
       state: TaskState.completed,
       reward: 1000,
-      level: TaskDifficulty.Easy,
+      level: TaskDifficulty.Hard,
     },
   ]);
 
@@ -48,10 +49,15 @@ function App() {
     setTasks(tasks.filter((task) => task.id !== id));
   };
 
+  //添加任务,将心任务放入原本的数组
+  const addTask = (task: Task) => {
+    setTasks([...tasks, task]);
+  };
   return (
     <div>
       <h1>Todo App</h1>
       {/* 无序列表，配合li使用 */}
+      <AddTask onAdd={addTask} />
       <ul>
         {/* {}里嵌入 JavaScript 表达式，jsx里如果要运行js得在{}里运行。
         使用数组的map方法，可以对数组里的元素进行操作，有返回值，返回值是一个新的数组 */}
