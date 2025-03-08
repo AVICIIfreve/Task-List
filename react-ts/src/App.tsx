@@ -6,7 +6,9 @@ import TaskItem from "./components/TaskItem";
 import AddTask from "./components/AddTask";
 
 function App() {
-  //测试数据,使用了useState来管理状态，当调用setTasks的时候就会自动刷新页面
+  // 记录任务奖励，累计
+  const [totalReward, setTotalReward] = useState(0);
+  //管理任务状态
   const [tasks, setTasks] = useState<Task[]>([
     {
       id: 1,
@@ -19,7 +21,7 @@ function App() {
     {
       id: 2,
       name: "进行30Min阅读",
-      state: TaskState.completed,
+      state: TaskState.uncompleted,
       reward: 1000,
       level: TaskDifficulty.Hard,
     },
@@ -28,18 +30,27 @@ function App() {
   //任务状态更改函数
   const toggleTask = (id: number) => {
     setTasks(
-      tasks.map((task) =>
-        task.id === id
-          ? {
-              //这里的意思就是其他都不变但是state会根据任务状态改变，但是这里的问题是我其他的状态就不会改变了
-              ...task,
-              state:
-                task.state === TaskState.completed
-                  ? TaskState.uncompleted
-                  : TaskState.completed,
-            }
-          : task
-      )
+      tasks.map((task) => {
+        if (task.id === id) {
+          // 如果任务从未完成变为完成，则增加奖励。这里要结合下面的代码来看，因为下面的代码会导致任务的状态变化
+          if (task.state !== TaskState.completed) {
+            setTotalReward(totalReward + task.reward);
+          }
+          // 如果任务从完成变为未完成，则减少奖励
+          else if (task.state === TaskState.completed) {
+            setTotalReward(totalReward - task.reward);
+          }
+          //这里还用了return，返回了一个数组？
+          return {
+            ...task,
+            state:
+              task.state === TaskState.completed
+                ? TaskState.uncompleted
+                : TaskState.completed,
+          };
+        }
+        return task;
+      })
     );
   };
 
@@ -56,6 +67,8 @@ function App() {
   return (
     <div>
       <h1>Todo App</h1>
+      {/* 显示累计奖励 */}
+      <p>累计奖励: {totalReward} 公爵币🪙</p>
       {/* 无序列表，配合li使用 */}
       <AddTask onAdd={addTask} />
       <ul>
