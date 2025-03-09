@@ -41,3 +41,11 @@ button {
 button:hover {
   background-color: #98c7e7;
 }
+
+.button-del {
+  background-color: #e93c3c;
+}
+
+.button-del:hover {
+  background-color: #b65034;
+}

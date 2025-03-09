@@ -64,6 +64,13 @@ function App() {
   const addTask = (task: Task) => {
     setTasks([...tasks, task]);
   };
+
+  // 编辑任务
+  const saveTask = (updatedTask: Task) => {
+    setTasks(
+      tasks.map((task) => (task.id === updatedTask.id ? updatedTask : task))
+    );
+  };
   return (
     <div>
       <h1>Todo App</h1>
@@ -80,6 +87,7 @@ function App() {
             task={task}
             onToggle={toggleTask}
             onDelete={deleteTask}
+            onEdit={saveTask}
           />
         ))}
       </ul>
