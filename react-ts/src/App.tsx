@@ -36,6 +36,7 @@ function App() {
           if (task.state !== TaskState.completed) {
             setTotalReward(totalReward + task.reward);
           }
+
           // 如果任务从完成变为未完成，则减少奖励
           else if (task.state === TaskState.completed) {
             setTotalReward(totalReward - task.reward);

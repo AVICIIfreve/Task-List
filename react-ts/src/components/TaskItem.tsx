@@ -20,6 +20,8 @@ interface TaskItemProps {
 const TaskItem = ({ task, onToggle, onDelete, onEdit }: TaskItemProps) => {
   //添加编辑表单显示状态
   const [isEditing, setIsEditing] = useState(false);
+  //管理编辑按钮状态
+  const [isDisabled, setIsDisabled] = useState(false);
 
   // 显示编辑菜单
   const handleEdit = () => {
@@ -72,6 +74,15 @@ const TaskItem = ({ task, onToggle, onDelete, onEdit }: TaskItemProps) => {
     }
   };
 
+  // 编辑按钮状态,这里要根据onToggle哪里的任务状态变化一下，所以逻辑是相反的
+  const editButtonState = (task: Task) => {
+    if (task.state === TaskState.completed) {
+      setIsDisabled(false);
+    } else if (task.state === TaskState.uncompleted) {
+      setIsDisabled(true);
+    }
+  };
+
   return (
     <>
       <div className="task-item">
@@ -80,7 +91,10 @@ const TaskItem = ({ task, onToggle, onDelete, onEdit }: TaskItemProps) => {
             type="checkbox"
             // 当任务的状态为已完成时勾选
             checked={task.state === TaskState.completed}
-            onChange={() => onToggle(task.id)}
+            onChange={() => {
+              onToggle(task.id);
+              editButtonState(task);
+            }}
           />
         </div>
         <span className="task-name">{task.name}</span>
@@ -95,7 +109,13 @@ const TaskItem = ({ task, onToggle, onDelete, onEdit }: TaskItemProps) => {
         </div>
         {/* 这里是定义了一个事件处理函数，
         {}其中运用了匿名函数和箭头函数，当用户点击这个按钮的时候会触发onDelete的逻辑 */}
-        <button onClick={handleEdit}>编辑</button>
+        <button
+          onClick={handleEdit}
+          disabled={isDisabled}
+          className={isDisabled ? "gray-button" : ""}
+        >
+          编辑
+        </button>
         <button onClick={() => onDelete(task.id)} className="button-del">
           删除
         </button>

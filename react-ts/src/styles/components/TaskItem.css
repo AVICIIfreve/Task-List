@@ -49,3 +49,7 @@ button:hover {
 .button-del:hover {
   background-color: #b65034;
 }
+
+.gray-button {
+  background-color: #ccc;
+}
