@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Task, TaskDifficulty, TaskState } from "../types/Task";
+import { Task, TaskDifficulty, TaskState } from "../../types/Task";
 
 //props有传递数据的用处
 interface EditTaskProps {

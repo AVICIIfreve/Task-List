@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Task, TaskDifficulty, TaskState } from "../types/Task";
+import { Task, TaskDifficulty, TaskState } from "../../types/Task";
 
 //定义一个Props接口，里面有一个添加任务的函数。作用是传递数据给父组件
 interface AddTaskProps {

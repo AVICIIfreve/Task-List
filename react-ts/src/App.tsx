@@ -2,8 +2,11 @@ import { useState } from "react";
 import "./App.css";
 //引入Task类型
 import { Task, TaskDifficulty, TaskState } from "./types/Task";
-import TaskItem from "./components/TaskItem";
-import AddTask from "./components/AddTask";
+import TaskItem from "./components/Task/TaskItem";
+import AddTask from "./components/Task/AddTask";
+import Reward from "./types/Reward";
+import RewardExchange from "./components/RewardExchange/RewardExchange";
+import AddRewardExchange from "./components/RewardExchange/addRewardExchange";
 
 function App() {
   // 记录任务奖励，累计
@@ -24,6 +27,19 @@ function App() {
       state: TaskState.uncompleted,
       reward: 1000,
       level: TaskDifficulty.Hard,
+    },
+  ]);
+  // 管理奖励兑换列表
+  const [RewardExchanges, setRewardExchanges] = useState<Reward[]>([
+    {
+      id: 1,
+      name: "玩游戏1h",
+      expend: 5000,
+    },
+    {
+      id: 2,
+      name: "看一集喜欢的剧",
+      expend: 5000,
     },
   ]);
 
@@ -72,26 +88,65 @@ function App() {
       tasks.map((task) => (task.id === updatedTask.id ? updatedTask : task))
     );
   };
+  // <---------------分隔线>
+  // 奖励兑换
+  // 删除奖励
+  const deleteReward = (id: number) => {
+    setRewardExchanges(RewardExchanges.filter((item) => item.id !== id));
+  };
+
+  // 兑换奖励
+  //TODO:目前允许负值吧，后期改不能为负值
+  const exchangeReward = (reward: Reward) => {
+    setTotalReward(totalReward - reward.expend);
+  };
+
+  // 编辑奖励
+  const editExchange = (reward: Reward) => {};
+
+  // 新增奖励
+  const addExchange = (reward: Reward) => {
+    setRewardExchanges([...RewardExchanges, reward]);
+  };
+
   return (
     <div>
-      <h1>Todo App</h1>
-      {/* 显示累计奖励 */}
-      <p>累计奖励: {totalReward} 公爵币🪙</p>
-      {/* 无序列表，配合li使用 */}
-      <AddTask onAdd={addTask} />
-      <ul>
-        {/* {}里嵌入 JavaScript 表达式，jsx里如果要运行js得在{}里运行。
+      {/* to-do-list前端 */}
+      <div>
+        <h1>Todo App</h1>
+        {/* 显示累计奖励 */}
+        <p>累计奖励: {totalReward} 公爵币🪙</p>
+        {/* 无序列表，配合li使用 */}
+        <AddTask onAdd={addTask} />
+        <ul>
+          {/* {}里嵌入 JavaScript 表达式，jsx里如果要运行js得在{}里运行。
         使用数组的map方法，可以对数组里的元素进行操作，有返回值，返回值是一个新的数组 */}
-        {tasks.map((task) => (
-          <TaskItem
-            key={task.id}
-            task={task}
-            onToggle={toggleTask}
-            onDelete={deleteTask}
-            onEdit={saveTask}
-          />
-        ))}
-      </ul>
+          {tasks.map((task) => (
+            <TaskItem
+              key={task.id}
+              task={task}
+              onToggle={toggleTask}
+              onDelete={deleteTask}
+              onEdit={saveTask}
+            />
+          ))}
+        </ul>
+      </div>
+      {/* 奖励兑换前端 */}
+      <div>
+        <AddRewardExchange onAdd={addExchange} />
+        <ul>
+          {RewardExchanges.map((rewardItem) => (
+            <RewardExchange
+              key={rewardItem.id}
+              reward={rewardItem}
+              onDelete={deleteReward}
+              onEdit={editExchange}
+              onExchange={exchangeReward}
+            />
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }

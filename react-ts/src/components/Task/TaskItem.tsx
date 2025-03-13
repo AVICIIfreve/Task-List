@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Task, TaskDifficulty, TaskState } from "../types/Task";
+import { Task, TaskDifficulty, TaskState } from "../../types/Task";
 import EditTask from "./EditTask";
 
 //接口，定义对象的形状，也就是指的对象的属性，类型，方法。没有实现
