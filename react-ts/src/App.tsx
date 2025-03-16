@@ -6,7 +6,7 @@ import TaskItem from "./components/Task/TaskItem";
 import AddTask from "./components/Task/AddTask";
 import Reward from "./types/Reward";
 import RewardExchange from "./components/RewardExchange/RewardExchange";
-import AddRewardExchange from "./components/RewardExchange/addRewardExchange";
+import AddRewardExchange from "./components/RewardExchange/AddRewardExchange";
 
 function App() {
   // 记录任务奖励，累计
@@ -102,7 +102,14 @@ function App() {
   };
 
   // 编辑奖励
-  const editExchange = (reward: Reward) => {};
+  const editExchange = (updatedReward: Reward) => {
+    setRewardExchanges(
+      // 这里是做了替换
+      RewardExchanges.map((item) =>
+        item.id === updatedReward.id ? updatedReward : item
+      )
+    );
+  };
 
   // 新增奖励
   const addExchange = (reward: Reward) => {
@@ -134,6 +141,7 @@ function App() {
       </div>
       {/* 奖励兑换前端 */}
       <div>
+        <h1>奖励兑换</h1>
         <AddRewardExchange onAdd={addExchange} />
         <ul>
           {RewardExchanges.map((rewardItem) => (

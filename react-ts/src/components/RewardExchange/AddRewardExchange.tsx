@@ -9,7 +9,7 @@ interface addRewardExchangeProps {
 const AddRewardExchange = ({ onAdd }: addRewardExchangeProps) => {
   //编辑兑换状态
   const [name, setName] = useState("");
-  const [expend, setExpend] = useState(0);
+  const [expend, setExpend] = useState(1000);
   //添加奖励状态，影响添加表单展示,默认不展开
   const [added, setAdded] = useState(false);
 
